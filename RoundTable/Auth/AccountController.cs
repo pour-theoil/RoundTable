@@ -80,6 +80,10 @@ namespace RoundTable.Auth
             {
                 Email = fbUser.Email,
                 FirebaseId = fbUser.FirebaseUserId,
+                FirstName = registration.FirstName,
+                LastName = registration.LastName,
+                Organization = registration.Organization,
+                Phone = registration.Phone,
             };
             _reporterRepository.Add(newReporter);
 

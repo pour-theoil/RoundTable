@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using RoundTable.Models;
 using RoundTable.Utils;
 
-namespace RoundTable.Repostiories
+namespace RoundTable.Repositories
 {
 
     public class BaseRepository

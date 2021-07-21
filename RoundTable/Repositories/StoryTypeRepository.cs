@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RoundTable.Repostiories
+namespace RoundTable.Repositories
 {
     public class StoryTypeRepository : BaseRepository, IStoryTypeRepository
     {
@@ -38,7 +38,7 @@ namespace RoundTable.Repostiories
             }
         }
 
-        public StoryType GetStoryTypeById(int id, int currentUser)
+        public StoryType GetStoryTypeById(int id)
         {
             using (var conn = Connection)
             {

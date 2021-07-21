@@ -1,26 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using RoundTable.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using RoundTable.Repositories;
 
 namespace RoundTable.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IReporterRepository _userProfileRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IReporterRepository userProfileRepository)
         {
-            _logger = logger;
+            _userProfileRepository = userProfileRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userProfile = _userProfileRepository.GetById(userProfileId);
+            return View(userProfile);
         }
 
         public IActionResult Privacy()

@@ -1,9 +1,13 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RoundTable.Auth;
+using RoundTable.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +28,13 @@ namespace RoundTable
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpClient();
+            services.AddTransient<IFirebaseAuthService, FirebaseAuthService>();
+            services.AddTransient<IReporterRepository, ReporterRepository>();
+
+            //services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => options.Cookie.SameSite = SameSiteMode.Strict);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +54,7 @@ namespace RoundTable
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

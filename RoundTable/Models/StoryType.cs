@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RoundTable.Models
 {
-    public class Type
+    public class StoryType
     {
         public int Id { get; set; }
         public string Name { get; set; }

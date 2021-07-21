@@ -9,10 +9,13 @@ namespace RoundTable.Models
     {
         public int Id { get; set; }
         public string Slug { get; set; }
-        public int TypeId { get; set; }
+        public int StoryTypeId { get; set; }
+        public StoryType StoryType { get; set; }
         public int NationalId { get; set; }
+        public NationalOutlet NationalOutlet { get; set; }
         public string Summary { get; set; }
         public int StatusId { get; set; }
+        public Status Status { get; set; }
         public int ReporterId { get; set; }
         public string StoryURl { get; set; }
         public DateTime LastStatusUpdate { get; set; }

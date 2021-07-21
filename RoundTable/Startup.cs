@@ -31,6 +31,10 @@ namespace RoundTable
             services.AddHttpClient();
             services.AddTransient<IFirebaseAuthService, FirebaseAuthService>();
             services.AddTransient<IReporterRepository, ReporterRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IStoryRepository, StoryRepository>();
+            services.AddTransient<IStoryTypeRepository, StoryTypeRepository>();
+      
 
             //services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

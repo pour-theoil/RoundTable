@@ -1,0 +1,83 @@
+﻿@model IEnumerable<RoundTable.Models.Story>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Slug)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoryTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NationalId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReporterId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoryURl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastStatusUpdate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Slug)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoryTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Summary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReporterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoryURl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastStatusUpdate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -19,5 +19,6 @@ namespace RoundTable.Models
         public int ReporterId { get; set; }
         public string StoryURl { get; set; }
         public DateTime LastStatusUpdate { get; set; }
+        public List<Source> Sources { get; set; }
     }
 }

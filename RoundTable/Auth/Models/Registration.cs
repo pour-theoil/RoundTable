@@ -16,5 +16,11 @@ namespace RoundTable.Auth.Models
         [Compare(nameof(Password))]
         [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        public string Phone { get; set; }
+        [Required]
+        public string Organization { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

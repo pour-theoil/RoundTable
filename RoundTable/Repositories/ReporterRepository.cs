@@ -109,7 +109,7 @@ namespace RoundTable.Repositories
                     DbUtils.AddParameter(cmd, "@Organization", reporter.Organization);
                     DbUtils.AddParameter(cmd, "@Phone", reporter.Phone);
 
-                    reporter.Id = (int)cmd.ExecuteScalar();
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

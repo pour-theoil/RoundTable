@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RoundTable.Models;
+using RoundTable.Models.ViewModels;
 using RoundTable.Repositories;
 using System;
 using System.Collections.Generic;
@@ -16,16 +17,23 @@ namespace RoundTable.Controllers
         private readonly IStoryRepository _storyRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IStoryTypeRepository _storyTypeRepository;
+        private readonly INationalOutletRepostitory _nationalOutletRepostitory;
+        private readonly IStatusRepository _statusRepository;
 
         public StoryController( IReporterRepository reporterRepository, 
                                 IStoryRepository storyRepository, 
                                 IStoryTypeRepository storyTypeRepository,
-                                ICategoryRepository categoryRepository)
+                                ICategoryRepository categoryRepository,
+                                INationalOutletRepostitory nationalOutlet,
+                                IStatusRepository statusRepository
+                               )
         {
             _reporterRepository = reporterRepository;
             _storyRepository = storyRepository;
             _storyTypeRepository = storyTypeRepository;
             _categoryRepository = categoryRepository;
+            _nationalOutletRepostitory = nationalOutlet;
+            _statusRepository = statusRepository;
         }
 
         // GET: StoryController
@@ -45,7 +53,19 @@ namespace RoundTable.Controllers
         // GET: StoryController/Create
         public ActionResult Create()
         {
-            return View();
+            var types = _storyTypeRepository.GetAllStoryType();
+            var category = _categoryRepository.GetAllCategory();
+            var national = _nationalOutletRepostitory.GetAllNationalOutlet();
+            var status = _statusRepository.GetAllStatus();
+            var vm = new AddStoryViewModel()
+            {
+                status = status,
+                story = new Story(),
+                storyTypes = types,
+                categories = category,
+                nationalOutlets = national
+            };
+            return View(vm);
         }
 
         // POST: StoryController/Create

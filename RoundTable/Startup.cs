@@ -34,6 +34,8 @@ namespace RoundTable
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IStoryRepository, StoryRepository>();
             services.AddTransient<IStoryTypeRepository, StoryTypeRepository>();
+            services.AddTransient<INationalOutletRepostitory, NationalOutletRepository>();
+            services.AddTransient<IStatusRepository, StatusRepository>();
       
 
             //services.AddControllersWithViews().AddRazorRuntimeCompilation();

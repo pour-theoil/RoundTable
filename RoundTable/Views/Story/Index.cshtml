@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<RoundTable.Models.Story>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Stories";
 }
 
 <h1>Index</h1>
@@ -13,25 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Slug)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StoryTypeId)
+                @Html.DisplayNameFor(model => model.StoryType.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NationalId)
+                @Html.DisplayNameFor(model => model.NationalOutlet.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Summary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StatusId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReporterId)
+                @Html.DisplayNameFor(model => model.Status.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StoryURl)
@@ -45,26 +36,18 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+           
             <td>
                 @Html.DisplayFor(modelItem => item.Slug)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StoryTypeId)
+                @Html.DisplayFor(modelItem => item.StoryType.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NationalId)
+                @Html.DisplayFor(modelItem => item.NationalOutlet.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StatusId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReporterId)
+                @Html.DisplayFor(modelItem => item.Status.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StoryURl)

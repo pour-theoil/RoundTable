@@ -9,7 +9,7 @@ namespace RoundTable.Repositories
     public interface ISourceRepository
     {
         List<Source> GetAllSouces(int reporterId);
-        Source GetSouceById(int souceId);
+        Source GetSouceById(int sourceId, int reporterId);
         void AddSource(Source source);
         void UpdateSource(Source source);
         void DeleteSource(int id);

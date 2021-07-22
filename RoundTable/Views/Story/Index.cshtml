@@ -19,16 +19,19 @@
                 @Html.DisplayNameFor(model => model.StoryType.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NationalOutlet.Name)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Status.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StoryURl)
+                @Html.DisplayNameFor(model => model.LastStatusUpdate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastStatusUpdate)
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NationalOutlet.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoryURl)
             </th>
             <th></th>
         </tr>
@@ -36,7 +39,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-           
+
             <td>
                 @Html.DisplayFor(modelItem => item.Slug)
             </td>
@@ -44,20 +47,23 @@
                 @Html.DisplayFor(modelItem => item.StoryType.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NationalOutlet.Name)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Status.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StoryURl)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastStatusUpdate)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalOutlet.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StoryURl)
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>

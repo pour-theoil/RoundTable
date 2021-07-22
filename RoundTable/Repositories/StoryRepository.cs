@@ -16,7 +16,30 @@ namespace RoundTable.Repositories
 
         public void AddStory(Story story)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    story.LastStatusUpdate = DateTime.Now;
+                    cmd.CommandText = @"Insert into story (slug, typeid, nationalId, Summary, categoryId, 
+                                        statusid, reporterId, storyUrl, laststatusupdate) 
+                                        OUTPUT INSERTED.ID
+                                        values(@slug, @storytypeId, @nationalId, @Summary, @categoryId,  
+                                        @StatusId, @reporterId, @storyUrl, @laststatusupdate)";
+
+                    DbUtils.AddParameter(cmd, "@categoryId", story.CategoryId);
+                    DbUtils.AddParameter(cmd, "@slug", story.Slug);
+                    DbUtils.AddParameter(cmd, "@storytypeId", story.StoryTypeId);
+                    DbUtils.AddParameter(cmd, "@nationalId", story.NationalId);
+                    DbUtils.AddParameter(cmd, "@Summary", story.Summary);
+                    DbUtils.AddParameter(cmd, "@StatusId", story.StoryTypeId);
+                    DbUtils.AddParameter(cmd, "@reporterId", story.ReporterId);
+                    DbUtils.AddParameter(cmd, "@storyUrl", story.StoryURl);
+                    DbUtils.AddParameter(cmd, "@laststatusupdate", story.LastStatusUpdate);
+                    story.Id = (int)cmd.ExecuteScalar();
+                }
+            }
         }
 
         public void DeleteStory(int id)
@@ -83,6 +106,13 @@ namespace RoundTable.Repositories
                                     Name = DbUtils.GetString(reader, "Status")
                                 },
                                 LastStatusUpdate = DbUtils.GetDateTime(reader, "laststatusupdate"),
+                                
+                                CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                                Category = new Category()
+                                {
+                                    Id = DbUtils.GetInt(reader, "CategoryId"),
+                                    Name = DbUtils.GetString(reader, "Category")
+                                },
                                 Sources = new List<Source>(),
                                 
                             };
@@ -116,7 +146,7 @@ namespace RoundTable.Repositories
                                         c.id as CategoryId, c.name as Category, 
 		                                source.id as SourceId, source.name as [Source], 
                                         n.id as NationalId, n.name as [National],
-		                                st.name as Status
+		                                st.id as StatusId, st.name as Status
 	                                from Story s 
 	                                    join category c on c.id = s.categoryId
 	                                    join type t on t.id = s.typeId
@@ -157,6 +187,12 @@ namespace RoundTable.Repositories
                             {
                                 Id = DbUtils.GetInt(reader, "StatusId"),
                                 Name = DbUtils.GetString(reader, "Status")
+                            },
+                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            Category = new Category()
+                            {
+                                Id = DbUtils.GetInt(reader, "CategoryId"),
+                                Name = DbUtils.GetString(reader, "Category")
                             },
                             LastStatusUpdate = DbUtils.GetDateTime(reader, "laststatusupdate"),
                             Sources = new List<Source>()

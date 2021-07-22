@@ -44,7 +44,16 @@ namespace RoundTable.Repositories
 
         public void DeleteStory(int id)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Update Story set isDeleted = 1 where id = @id";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public List<Story> GetAll(int reporterId)
@@ -106,7 +115,7 @@ namespace RoundTable.Repositories
                                     Name = DbUtils.GetString(reader, "Status")
                                 },
                                 LastStatusUpdate = DbUtils.GetDateTime(reader, "laststatusupdate"),
-                                
+
                                 CategoryId = DbUtils.GetInt(reader, "CategoryId"),
                                 Category = new Category()
                                 {
@@ -114,7 +123,7 @@ namespace RoundTable.Repositories
                                     Name = DbUtils.GetString(reader, "Category")
                                 },
                                 Sources = new List<Source>(),
-                                
+
                             };
                             stories.Add(existingstory);
                         }
@@ -125,7 +134,7 @@ namespace RoundTable.Repositories
                                 Id = DbUtils.GetInt(reader, "sourceId")
                             });
                         }
-                        
+
                     }
 
                     conn.Close();

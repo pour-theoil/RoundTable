@@ -66,7 +66,7 @@ namespace RoundTable.Repositories
                     cmd.CommandText = @"Select s.id, s.slug, s.storyUrl, s.summary, s.laststatusupdate,
 		                                t.id as TypeId, t.name as [Type], 
                                         c.id as CategoryId, c.name as Category, 
-		                                source.id as SourceId, source.name as [Source], 
+		                                source.id as SourceId, source.firstname as firstSource, source.lastname as lastSource, 
                                         n.id as NationalId, n.name as [National],
 		                                st.id as StatusId, st.name as Status
 	                                from Story s 
@@ -131,7 +131,9 @@ namespace RoundTable.Repositories
                         {
                             existingstory.Sources.Add(new Source()
                             {
-                                Id = DbUtils.GetInt(reader, "sourceId")
+                                Id = DbUtils.GetInt(reader, "sourceId"),
+                                FirstName = DbUtils.GetString(reader, "firstsource"),
+                                LastName = DbUtils.GetString(reader, "lastsource")
                             });
                         }
 

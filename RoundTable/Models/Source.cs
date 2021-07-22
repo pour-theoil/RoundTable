@@ -25,5 +25,6 @@ namespace RoundTable.Models
         public int ReporterId { get; set; }
 
         public string Displayname => FirstName + LastName;
+        public List<Category> Categories { get; set; }
     }
 }

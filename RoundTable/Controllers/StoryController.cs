@@ -94,7 +94,20 @@ namespace RoundTable.Controllers
         // GET: StoryController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var types = _storyTypeRepository.GetAllStoryType();
+            var category = _categoryRepository.GetAllCategory();
+            var national = _nationalOutletRepostitory.GetAllNationalOutlet();
+            var status = _statusRepository.GetAllStatus();
+            var vm = new AddStoryViewModel()
+            {
+                status = status,
+                story = _storyRepository.GetStoryById(id, firebaseUserId),
+                storyTypes = types,
+                categories = category,
+                nationalOutlets = national
+            };
+            return View(vm);
         }
 
         // POST: StoryController/Edit/5

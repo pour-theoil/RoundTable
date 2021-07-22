@@ -47,7 +47,9 @@ namespace RoundTable.Controllers
         // GET: StoryController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var story = _storyRepository.GetStoryById(id, firebaseUserId);
+            return View(story);
         }
 
         // GET: StoryController/Create
@@ -71,15 +73,21 @@ namespace RoundTable.Controllers
         // POST: StoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(AddStoryViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                vm.story.ReporterId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                _storyRepository.AddStory(vm.story);
+                return RedirectToAction("Details", new { id = vm.story.Id });
             }
             catch
             {
-                return View();
+                vm.status = _statusRepository.GetAllStatus();
+                vm.storyTypes = _storyTypeRepository.GetAllStoryType();
+                vm.categories = _categoryRepository.GetAllCategory();
+                vm.nationalOutlets = _nationalOutletRepostitory.GetAllNationalOutlet();
+                return View(vm);
             }
         }
 

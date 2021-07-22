@@ -4,73 +4,81 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Add</h1>
-
-<h4>Story</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="story.Id" class="form-control" type="hidden" />
-            </div>
-            <div class="form-group">
-                <label asp-for="story.Slug" class="control-label"></label>
-                <input asp-for="story.Slug" class="form-control" />
-                <span asp-validation-for="story.Slug" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="story.StoryTypeId" class="control-label"></label>
-                <select asp-for="story.StoryTypeId" class="form-control">
-                    @foreach (var category in Model.categories)
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="story.NationalId" class="control-label"></label>
-                <select asp-for="story.NationalId" class="form-control">
-                    @foreach (var national in Model.nationalOutlets)
-                    {
-                        <option value="@national.Id">@national.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="story.Summary" class="control-label"></label>
-                <input asp-for="story.Summary" class="form-control" />
-                <span asp-validation-for="story.Summary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="story.StatusId" class="control-label"></label>
-                <select asp-for="story.StatusId" class="form-control">
-                    @foreach (var status in Model.status)
-                    {
-                        <option value="@status.Id">@status.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <input asp-for="story.ReporterId" class="form-control" type="hidden" />
-            </div>
-            <div class="form-group">
-                <label asp-for="story.StoryURl" class="control-label"></label>
-                <input asp-for="story.StoryURl" class="form-control" />
-                <span asp-validation-for="story.StoryURl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="card col-md-12 col-lg-8">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="story.Id" class="form-control" type="hidden" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="story.Slug" class="control-label"></label>
+                    <input asp-for="story.Slug" class="form-control" />
+                    <span asp-validation-for="story.Slug" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="story.StoryTypeId" class="control-label"></label>
+                    <select asp-for="story.StoryTypeId" class="form-control">
+                        @foreach (var type in Model.storyTypes)
+                        {
+                            <option value="@type.Id">@type.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="story.StoryTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="story.StatusId" class="control-label"></label>
+                    <select asp-for="story.StatusId" class="form-control">
+                        @foreach (var status in Model.status)
+                        {
+                            <option value="@status.Id">@status.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="story.CategoryId" class="control-label"></label>
+                    <select asp-for="story.CategoryId" class="form-control">
+                        @foreach (var cat in Model.categories)
+                        {
+                            <option value="@cat.Id">@cat.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="story.NationalId" class="control-label"></label>
+                    <select asp-for="story.NationalId" class="form-control">
+                        @foreach (var national in Model.nationalOutlets)
+                        {
+                            <option value="@national.Id">@national.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="story.NationalId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="story.Summary" class="control-label"></label>
+                    <input asp-for="story.Summary" class="form-control" />
+                    <span asp-validation-for="story.Summary" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="story.ReporterId" class="form-control" type="hidden" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="story.StoryURl" class="control-label"></label>
+                    <input asp-for="story.StoryURl" class="form-control" />
+                    <span asp-validation-for="story.StoryURl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

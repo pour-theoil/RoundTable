@@ -10,63 +10,51 @@
     <h4>Story</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Slug)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Slug)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StoryTypeId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StoryType.Name)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StoryTypeId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StoryType.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NationalId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NationalOutlet.Name)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NationalId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NationalOutlet.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Summary)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status.Name)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Summary)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StatusId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category.Name)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StatusId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReporterId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReporterId)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.StoryURl)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StoryURl)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastStatusUpdate)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Summary)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastStatusUpdate)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Summary)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>

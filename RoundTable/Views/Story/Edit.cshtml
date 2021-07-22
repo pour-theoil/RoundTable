@@ -1,7 +1,7 @@
 ﻿@model RoundTable.Models.ViewModels.AddStoryViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <div class="container pt-5">
@@ -20,7 +20,6 @@
                 <div class="form-group">
                     <label asp-for="story.StoryTypeId" class="control-label"></label>
                     <select asp-for="story.StoryTypeId" class="form-control">
-                        <option value="">Select Type</option>
                         @foreach (var type in Model.storyTypes)
                         {
                             <option value="@type.Id">@type.Name</option>
@@ -31,7 +30,6 @@
                 <div class="form-group">
                     <label asp-for="story.StatusId" class="control-label"></label>
                     <select asp-for="story.StatusId" class="form-control">
-                        <option value="">Select Status</option>
                         @foreach (var status in Model.status)
                         {
                             <option value="@status.Id">@status.Name</option>
@@ -41,7 +39,6 @@
                 <div class="form-group">
                     <label asp-for="story.CategoryId" class="control-label"></label>
                     <select asp-for="story.CategoryId" class="form-control">
-                        <option value="">Select Category</option>
                         @foreach (var cat in Model.categories)
                         {
                             <option value="@cat.Id">@cat.Name</option>
@@ -51,7 +48,6 @@
                 <div class="form-group">
                     <label asp-for="story.NationalId" class="control-label"></label>
                     <select asp-for="story.NationalId" class="form-control">
-                        <option value="">Select National Coverage</option>
                         @foreach (var national in Model.nationalOutlets)
                         {
                             <option value="@national.Id">@national.Name</option>
@@ -73,16 +69,16 @@
                     <span asp-validation-for="story.StoryURl" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Edit" class="btn btn-primary" />
                 </div>
             </form>
         </div>
     </div>
 </div>
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

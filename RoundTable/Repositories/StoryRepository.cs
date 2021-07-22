@@ -225,7 +225,35 @@ namespace RoundTable.Repositories
 
         public void UpdateStory(Story story)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    story.LastStatusUpdate = DateTime.Now;
+                    cmd.CommandText = @"Update  story set
+                                        slug = @slug,
+                                        typeid = @storytypeId,
+                                        nationalId = @nationalId,
+                                        Summary = @Summary,
+                                        categoryId = @categoryId,
+                                        statusid = @StatusId,
+                                        storyUrl =  @storyUrl,
+                                        laststatusupdate = @laststatusupdate
+                                       ";
+
+                    DbUtils.AddParameter(cmd, "@categoryId", story.CategoryId);
+                    DbUtils.AddParameter(cmd, "@slug", story.Slug);
+                    DbUtils.AddParameter(cmd, "@storytypeId", story.StoryTypeId);
+                    DbUtils.AddParameter(cmd, "@nationalId", story.NationalId);
+                    DbUtils.AddParameter(cmd, "@Summary", story.Summary);
+                    DbUtils.AddParameter(cmd, "@StatusId", story.StoryTypeId);
+                    DbUtils.AddParameter(cmd, "@reporterId", story.ReporterId);
+                    DbUtils.AddParameter(cmd, "@storyUrl", story.StoryURl);
+                    DbUtils.AddParameter(cmd, "@laststatusupdate", story.LastStatusUpdate);
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

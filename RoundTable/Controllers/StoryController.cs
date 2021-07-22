@@ -115,7 +115,9 @@ namespace RoundTable.Controllers
         // GET: StoryController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            Story story = _storyRepository.GetStoryById(id, firebaseUserId);
+            return View(story);
         }
 
         // POST: StoryController/Delete/5
@@ -125,6 +127,7 @@ namespace RoundTable.Controllers
         {
             try
             {
+                _storyRepository.DeleteStory(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

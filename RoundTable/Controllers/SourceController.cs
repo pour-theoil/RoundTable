@@ -28,7 +28,9 @@ namespace RoundTable.Controllers
         // GET: SourceController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var source = _sourceRepository.GetSouceById(id, firebaseUserId);
+            return View(source);
         }
 
         // GET: SourceController/Create
@@ -76,7 +78,9 @@ namespace RoundTable.Controllers
         // GET: SourceController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var source = _sourceRepository.GetSouceById(id, firebaseUserId);
+            return View(source);
         }
 
         // POST: SourceController/Delete/5
@@ -86,6 +90,7 @@ namespace RoundTable.Controllers
         {
             try
             {
+                _sourceRepository.DeleteSource(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

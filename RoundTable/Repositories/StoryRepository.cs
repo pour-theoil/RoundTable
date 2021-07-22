@@ -155,7 +155,7 @@ namespace RoundTable.Repositories
                     cmd.CommandText = @"Select s.id, s.slug, s.storyUrl, s.summary, s.laststatusupdate,
 		                                t.id as TypeId, t.name as [Type], 
                                         c.id as CategoryId, c.name as Category, 
-		                                source.id as SourceId, source.name as [Source], 
+		                                source.id as SourceId, source.firstname as firstSource, source.lastname as lastSource, 
                                         n.id as NationalId, n.name as [National],
 		                                st.id as StatusId, st.name as Status
 	                                from Story s 
@@ -169,52 +169,59 @@ namespace RoundTable.Repositories
                     DbUtils.AddParameter(cmd, "@storyId", storyId);
                     DbUtils.AddParameter(cmd, "@reporterId", reporterId);
 
-                    var story = new Story();
+                    Story story = null;
                     var reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        story = new Story()
+                        if (story == null)
                         {
 
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            Slug = DbUtils.GetString(reader, "Slug"),
-                            StoryURl = DbUtils.GetString(reader, "StoryUrl"),
-                            Summary = DbUtils.GetString(reader, "Summary"),
-                            StoryTypeId = DbUtils.GetInt(reader, "TypeId"),
-                            StoryType = new StoryType()
+
+                            story = new Story()
                             {
-                                Id = DbUtils.GetInt(reader, "TypeId"),
-                                Name = DbUtils.GetString(reader, "Type")
-                            },
-                            NationalId = DbUtils.GetInt(reader, "NationalId"),
-                            NationalOutlet = new NationalOutlet()
-                            {
-                                Id = DbUtils.GetInt(reader, "NationalId"),
-                                Name = DbUtils.GetString(reader, "National")
-                            },
-                            StatusId = DbUtils.GetInt(reader, "StatusId"),
-                            Status = new Status()
-                            {
-                                Id = DbUtils.GetInt(reader, "StatusId"),
-                                Name = DbUtils.GetString(reader, "Status")
-                            },
-                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
-                            Category = new Category()
-                            {
-                                Id = DbUtils.GetInt(reader, "CategoryId"),
-                                Name = DbUtils.GetString(reader, "Category")
-                            },
-                            LastStatusUpdate = DbUtils.GetDateTime(reader, "laststatusupdate"),
-                            Sources = new List<Source>()
-                        };
+
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Slug = DbUtils.GetString(reader, "Slug"),
+                                StoryURl = DbUtils.GetString(reader, "StoryUrl"),
+                                Summary = DbUtils.GetString(reader, "Summary"),
+                                StoryTypeId = DbUtils.GetInt(reader, "TypeId"),
+                                StoryType = new StoryType()
+                                {
+                                    Id = DbUtils.GetInt(reader, "TypeId"),
+                                    Name = DbUtils.GetString(reader, "Type")
+                                },
+                                NationalId = DbUtils.GetInt(reader, "NationalId"),
+                                NationalOutlet = new NationalOutlet()
+                                {
+                                    Id = DbUtils.GetInt(reader, "NationalId"),
+                                    Name = DbUtils.GetString(reader, "National")
+                                },
+                                StatusId = DbUtils.GetInt(reader, "StatusId"),
+                                Status = new Status()
+                                {
+                                    Id = DbUtils.GetInt(reader, "StatusId"),
+                                    Name = DbUtils.GetString(reader, "Status")
+                                },
+                                CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                                Category = new Category()
+                                {
+                                    Id = DbUtils.GetInt(reader, "CategoryId"),
+                                    Name = DbUtils.GetString(reader, "Category")
+                                },
+                                LastStatusUpdate = DbUtils.GetDateTime(reader, "laststatusupdate"),
+                                Sources = new List<Source>()
+                            };
+                        }
 
 
                         if (DbUtils.IsNotDbNull(reader, "sourceId"))
                         {
                             story.Sources.Add(new Source()
                             {
-                                Id = DbUtils.GetInt(reader, "sourceId")
+                                Id = DbUtils.GetInt(reader, "sourceId"),
+                                FirstName = DbUtils.GetString(reader, "firstsource"),
+                                LastName = DbUtils.GetString(reader, "lastsource")
                             });
                         }
                     }

@@ -162,6 +162,7 @@ namespace RoundTable.Repositories
                                 Email = DbUtils.GetString(reader, "Email"),
                                 Phone = DbUtils.GetString(reader, "Phone"),
                                 JobTitle = DbUtils.GetString(reader, "Jobtitle"),
+                                ReporterId = reporterId,
                                 Categories = new List<Category>(),
 
                             };
@@ -201,15 +202,16 @@ namespace RoundTable.Repositories
                                     Phone = @Phone,
                                     JobTitle = @JobTitle,
                                     reporterId = @reporterId
+                                    where id = @sourceid;
                                     ";
                     var i = 0;
                     if (source.Categories.Count > 0)
                     {
-                        sql += "Delete from sourcecategories where sourceId = @sourceId";
+                        sql += "Delete from sourceCategory where sourceId = @sourceId;";
                         foreach (var cat in source.Categories)
                         {
                             sql += @$"
-                                    Insert into sourcecategories (sourceId, categoryId) 
+                                    Insert into sourceCategory (sourceId, categoryId) 
                                     values (@sourceId, @categoryId{i});";
                             i++;
                         }
@@ -223,6 +225,7 @@ namespace RoundTable.Repositories
                     DbUtils.AddParameter(cmd, "@Phone", source.Phone);
                     DbUtils.AddParameter(cmd, "@JobTitle", source.JobTitle);
                     DbUtils.AddParameter(cmd, "@ReporterId", source.ReporterId);
+                    DbUtils.AddParameter(cmd, "@sourceId", source.Id);
 
                     i = 0;
                     if (source.Categories.Count > 0)

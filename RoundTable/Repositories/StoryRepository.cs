@@ -249,8 +249,10 @@ namespace RoundTable.Repositories
                                         statusid = @StatusId,
                                         storyUrl =  @storyUrl,
                                         laststatusupdate = @laststatusupdate
+                                        where id = @id;
                                        ";
 
+                    DbUtils.AddParameter(cmd, "@id", story.Id);
                     DbUtils.AddParameter(cmd, "@categoryId", story.CategoryId);
                     DbUtils.AddParameter(cmd, "@slug", story.Slug);
                     DbUtils.AddParameter(cmd, "@storytypeId", story.StoryTypeId);

@@ -62,12 +62,15 @@ namespace RoundTable.Controllers
             {
                 _sourceRepository.AddSource(vm.Source);
                 _categoryRepository.DeleteSourceCategories(vm.Source.Id);
-                
-                foreach (var value in vm.SelectedValues)
+                if (vm.SelectedValues != null)
                 {
-                    _categoryRepository.AddCategoryToSource(value, vm.Source.Id);
+
+                    foreach (var value in vm.SelectedValues)
+                    {
+                        _categoryRepository.AddCategoryToSource(value, vm.Source.Id);
+                    }
                 }
-                
+
                 return RedirectToAction("Details", new { id = vm.Source.Id });
             }
             catch
@@ -80,21 +83,48 @@ namespace RoundTable.Controllers
         // GET: SourceController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var source = _sourceRepository.GetSouceById(id, firebaseUserId);
+
+            var categories = _categoryRepository.GetAllCategory();
+
+            var vm = new SourceViewModel()
+            {
+                Source = source,
+                Categories = categories
+            };
+            return View(vm);
         }
 
         // POST: SourceController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, SourceViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                vm.Source.Categories = new List<Category>();
+                if (vm.SelectedValues != null)
+                {
+
+                    foreach (var value in vm.SelectedValues)
+                    {
+                        var cat = new Category()
+                        {
+                            Id = value,
+                        };
+                        vm.Source.Categories.Add(cat);
+                    }
+                }
+
+                _sourceRepository.UpdateSource(vm.Source);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                vm.Categories = _categoryRepository.GetAllCategory();
+                return View(vm);
             }
         }
 

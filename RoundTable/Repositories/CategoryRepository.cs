@@ -65,6 +65,34 @@ namespace RoundTable.Repositories
                 }
             }
         }
+        public void DeleteSourceCategories(int sourceId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Delete from sourceCategory where sourceId = @sourceId;";
+                    DbUtils.AddParameter(cmd, "@sourceId", sourceId);
+                }
+            }
+        }
+        
+        public void AddCategoryToSource(int categoryId, int sourceId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Insert into sourceCategory (sourceId, categoryId) values (@sourceId, @categoryId);";
+                    DbUtils.AddParameter(cmd, "@sourceId", sourceId);
+                    DbUtils.AddParameter(cmd, "@categoryId", categoryId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
 

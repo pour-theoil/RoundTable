@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace RoundTable.Models.ViewModels
 {
-    public class SourceModelView
+    public class SourceViewModel
     {
         public Source Source { get; set; }
-        public List<Category> categories { get; set; }
+        public List<Category> Categories { get; set; }
+        public int[] SelectedValues { get; set; }
     }
 }

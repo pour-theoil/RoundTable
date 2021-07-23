@@ -22,6 +22,6 @@ namespace RoundTable.Models
         [Required]
         public string FirebaseId { get; set; }
 
-        public string Displayname => FirstName + LastName;
+        public string Displayname => FirstName + " " + LastName;
     }
 }

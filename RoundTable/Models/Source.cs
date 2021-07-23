@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace RoundTable.Models
         public string JobTitle { get; set; }
 
         public int ReporterId { get; set; }
-
+        [DisplayName("Name")]
         public string Displayname => FirstName + " " + LastName;
         public List<Category> Categories { get; set; }
     }

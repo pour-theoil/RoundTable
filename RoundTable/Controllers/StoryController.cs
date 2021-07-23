@@ -20,8 +20,8 @@ namespace RoundTable.Controllers
         private readonly INationalOutletRepostitory _nationalOutletRepostitory;
         private readonly IStatusRepository _statusRepository;
 
-        public StoryController( IReporterRepository reporterRepository, 
-                                IStoryRepository storyRepository, 
+        public StoryController(IReporterRepository reporterRepository,
+                                IStoryRepository storyRepository,
                                 IStoryTypeRepository storyTypeRepository,
                                 ICategoryRepository categoryRepository,
                                 INationalOutletRepostitory nationalOutlet,
@@ -113,15 +113,24 @@ namespace RoundTable.Controllers
         // POST: StoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, AddStoryViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _storyRepository.UpdateStory(vm.story);
+                return RedirectToAction("Details", new { id = vm.story.Id });
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+
+                vm.storyTypes = _storyTypeRepository.GetAllStoryType();
+                vm.categories = _categoryRepository.GetAllCategory();
+                vm.nationalOutlets = _nationalOutletRepostitory.GetAllNationalOutlet();
+                vm.status = _statusRepository.GetAllStatus();
+
+
+
+                return View(vm);
             }
         }
 

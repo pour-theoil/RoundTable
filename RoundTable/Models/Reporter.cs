@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace RoundTable.Models
         public string Phone { get; set; }
         [Required]
         public string FirebaseId { get; set; }
-
+        [DisplayName("Name")]
         public string Displayname => FirstName + " " + LastName;
     }
 }

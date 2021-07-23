@@ -10,5 +10,7 @@ namespace RoundTable.Repositories
     {
         List<Category> GetAllCategory();
         Category GetCategoryById(int id);
+        public void DeleteSourceCategories(int sourceId);
+        public void AddCategoryToSource(int sourceId, int categoryId);
     }
 }

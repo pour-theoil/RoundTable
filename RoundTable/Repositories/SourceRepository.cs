@@ -13,7 +13,50 @@ namespace RoundTable.Repositories
         public SourceRepository(IConfiguration config) : base(config) { }
         public void AddSource(Source source)
         {
-            throw new NotImplementedException();
+
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    
+                     var sql = @"Insert into source (FirstName, LastName, Organization, Email, Phone, 
+                                        JobTitle, reporterId) 
+                                        OUTPUT INSERTED.ID
+                                        values(@FirstName, @LastName, @Organization, @Email, @Phone,  
+                                        @JobTitle, @reporterId);";
+                    var i = 0;
+                    //if(source.Categories.Count > 0)
+                    //{
+                    //    foreach(var cat in source.Categories)
+                    //    {
+                    //        sql += @$"
+                    //                Insert into sourcecategories (sourceId, categoryId) 
+                    //                values (INSERTED.ID, @categoryId{i});";
+                    //    }
+                    //}
+                    
+                    cmd.CommandText = sql;
+                    DbUtils.AddParameter(cmd, "@FirstName", source.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", source.LastName);
+                    DbUtils.AddParameter(cmd, "@Organization", source.Organization);
+                    DbUtils.AddParameter(cmd, "@Email", source.Email);
+                    DbUtils.AddParameter(cmd, "@Phone", source.Phone);
+                    DbUtils.AddParameter(cmd, "@JobTitle", source.JobTitle);
+                    DbUtils.AddParameter(cmd, "@ReporterId", source.ReporterId);
+
+                    //i = 0;
+                    //if (source.Categories.Count > 0)
+                    //{
+                    //    foreach (var cat in source.Categories)
+                    //    {
+                    //        DbUtils.AddParameter(cmd, $"@sourceId{i}", cat.Id);
+                    //    }
+                    //}
+                    source.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+
         }
 
         public void DeleteSource(int id)
@@ -24,7 +67,7 @@ namespace RoundTable.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"Delete from Source where id = @id;
-                                        Delete from SourceCatagory where sourceId = @id";
+                                        Delete from SourceCategory where sourceId = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
@@ -40,7 +83,7 @@ namespace RoundTable.Repositories
                 {
                     cmd.CommandText = @"SELECT s.id, s.firstname, s.lastname, s.email, s.organization, s.phone, s.jobtitle, s.reporterId,
                                         c.id as CategoryId, c.name as CategoryName
-                                        FROM SOURCE S LEFT JOIN sourceCatagory SC ON SC.sourceId = S.id
+                                        FROM SOURCE S LEFT JOIN sourceCategory SC ON SC.sourceId = S.id
                                         LEFT JOIN category C ON C.id = SC.categoryId
                                         WHERE IsDeleted = 0 AND reporterId =@reporterId; ";
                     DbUtils.AddParameter(cmd, "@reporterId", reporterId);
@@ -94,7 +137,7 @@ namespace RoundTable.Repositories
                 {
                     cmd.CommandText = @"SELECT Distinct s.id, s.firstname, s.lastname, s.email, s.organization, s.phone, s.jobtitle, s.reporterId,
                                         c.id as CategoryId, c.name as CategoryName
-                                        FROM SOURCE S LEFT JOIN sourceCatagory SC ON SC.sourceId = S.id
+                                        FROM SOURCE S LEFT JOIN sourceCategory SC ON SC.sourceId = S.id
                                         LEFT JOIN category C ON C.id = SC.categoryId
                                         WHERE s.IsDeleted = 0 AND s.reporterId =@reporterId
                                         and s.id = @sourceId; ";
@@ -105,9 +148,9 @@ namespace RoundTable.Repositories
 
                     while (reader.Read())
                     {
-                       
 
-                        
+
+
                         if (source == null)
                         {
                             source = new Source()
@@ -123,7 +166,7 @@ namespace RoundTable.Repositories
 
                             };
 
-                            
+
                         }
                         if (DbUtils.IsNotDbNull(reader, "CategoryId"))
                         {
@@ -144,7 +187,55 @@ namespace RoundTable.Repositories
 
         public void UpdateSource(Source source)
         {
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+
+                    var sql = @"Update source Set
+                                    FirstName = @FirstName,
+                                    LastName = @LastName,
+                                    Organization = @Organization,
+                                    Email = @Email, 
+                                    Phone = @Phone,
+                                    JobTitle = @JobTitle,
+                                    reporterId = @reporterId
+                                    ";
+                    var i = 0;
+                    if (source.Categories.Count > 0)
+                    {
+                        sql += "Delete from sourcecategories where sourceId = @sourceId";
+                        foreach (var cat in source.Categories)
+                        {
+                            sql += @$"
+                                    Insert into sourcecategories (sourceId, categoryId) 
+                                    values (@sourceId, @categoryId{i});";
+                            i++;
+                        }
+                    }
+
+                    cmd.CommandText = sql;
+                    DbUtils.AddParameter(cmd, "@FirstName", source.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", source.LastName);
+                    DbUtils.AddParameter(cmd, "@Organization", source.Organization);
+                    DbUtils.AddParameter(cmd, "@Email", source.Email);
+                    DbUtils.AddParameter(cmd, "@Phone", source.Phone);
+                    DbUtils.AddParameter(cmd, "@JobTitle", source.JobTitle);
+                    DbUtils.AddParameter(cmd, "@ReporterId", source.ReporterId);
+
+                    i = 0;
+                    if (source.Categories.Count > 0)
+                    {
+                        foreach (var cat in source.Categories)
+                        {
+                            DbUtils.AddParameter(cmd, $"@categoryId{i}", cat.Id);
+                            i++;
+                        }
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

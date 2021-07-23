@@ -1,0 +1,79 @@
+﻿@model RoundTable.Models.ViewModels.SourceViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Source</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+
+                <input asp-for="Source.Id" class="form-control" type="hidden" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Source.FirstName" class="control-label"></label>
+                <input asp-for="Source.FirstName" class="form-control" />
+                <span asp-validation-for="Source.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source.LastName" class="control-label"></label>
+                <input asp-for="Source.LastName" class="form-control" />
+                <span asp-validation-for="Source.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source.Organization" class="control-label"></label>
+                <input asp-for="Source.Organization" class="form-control" />
+                <span asp-validation-for="Source.Organization" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source.Email" class="control-label"></label>
+                <input asp-for="Source.Email" class="form-control" />
+                <span asp-validation-for="Source.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source.Phone" class="control-label"></label>
+                <input asp-for="Source.Phone" class="form-control" />
+                <span asp-validation-for="Source.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source.JobTitle" class="control-label"></label>
+                <input asp-for="Source.JobTitle" class="form-control" />
+                <span asp-validation-for="Source.JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <input asp-for="Source.ReporterId" class="form-control" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Source.Categories" class="control-label"></label>
+                @*<select asp-for="Source.Categories" class="form-control" multiple>
+            <option value="">Select Categories of source</option>
+            @foreach (var cat in Model.Categories)
+            {
+                <option value="@cat.Id">@cat.Name</option>
+            }
+        </select>*@
+                @Html.ListBoxFor(model => model.SelectedValues, new MultiSelectList(Model.Categories, "Id", "Name", Model.SelectedValues), new { @class = "form-control", multiple = "multiple" })
+                <span asp-validation-for="Source.Categories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

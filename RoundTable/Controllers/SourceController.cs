@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RoundTable.Models;
+using RoundTable.Models.ViewModels;
 using RoundTable.Repositories;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,12 @@ namespace RoundTable.Controllers
     public class SourceController : Controller
     {
         private readonly ISourceRepository _sourceRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public SourceController(ISourceRepository sourceRepository)
+        public SourceController(ISourceRepository sourceRepository, ICategoryRepository categoryRepository)
         {
             _sourceRepository = sourceRepository;
+            _categoryRepository = categoryRepository;
         }
         // GET: SourceController
         public ActionResult Index()
@@ -36,21 +40,40 @@ namespace RoundTable.Controllers
         // GET: SourceController/Create
         public ActionResult Create()
         {
-            return View();
+            var categories = _categoryRepository.GetAllCategory();
+            var source = new Source()
+            {
+                ReporterId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            };
+            var vm = new SourceViewModel()
+            {
+                Source = source,
+                Categories = categories
+            };
+            return View(vm);
         }
 
         // POST: SourceController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(SourceViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _sourceRepository.AddSource(vm.Source);
+                _categoryRepository.DeleteSourceCategories(vm.Source.Id);
+                
+                foreach (var value in vm.SelectedValues)
+                {
+                    _categoryRepository.AddCategoryToSource(value, vm.Source.Id);
+                }
+                
+                return RedirectToAction("Details", new { id = vm.Source.Id });
             }
             catch
             {
-                return View();
+                vm.Categories = _categoryRepository.GetAllCategory();
+                return View(vm);
             }
         }
 

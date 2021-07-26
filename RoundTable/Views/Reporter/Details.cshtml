@@ -1,0 +1,182 @@
+﻿@model RoundTable.Models.Reporter
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<h1>Details</h1>
+
+<div>
+    <h4>Reporter</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Organization)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Organization)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirebaseId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirebaseId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Displayname)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Displayname)
+        </dd>
+    </dl>
+</div>
+<div style="display: block; flex-direction:row">
+
+    <div id="mixContainer" style="width:50%"></div>
+    <div id="statusContainer" style="width:50%; position:absolute; right:0"></div>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+
+
+        $(function () {
+            const getStatuses = () => {
+                return fetch('/api/Charts/Status').then(resp => {
+                    if (resp.ok) {
+                        var resultes = resp.json();
+
+                        return resultes;
+                    }
+                    else {
+                        throw new Error("An unknown error occurred while trying to get tags.");
+                    }
+                })
+            }
+            getStatuses().then(resp => {
+
+                var datapoints = [];
+                resp.forEach(pair => datapoints.push(pair))
+                console.log(datapoints)
+                var statuschart = new CanvasJS.Chart("statusContainer", {
+                    title: {
+                        text: "Story Status"
+                    },
+                    animationEnabled: true,
+                    legend: {
+                        verticalAlign: "center",
+                        horizontalAlign: "left",
+                        fontSize: 20,
+                        fontFamily: "Helvetica"
+                    },
+                    theme: "light2",
+                    data: [
+                        {
+                            type: "pie",
+                            indexLabelFontFamily: "Garamond",
+                            indexLabelFontSize: 20,
+                            indexLabel: "{label}",
+                            startAngle: -20,
+                            showInLegend: false,
+
+                            dataPoints:
+                                datapoints
+
+                        }
+                    ]
+
+
+                });
+                statuschart.render();
+            });
+
+
+
+
+            const getMixes = () => {
+                return fetch('/api/Charts/Mix').then(resp => {
+                    if (resp.ok) {
+                        var resultes = resp.json();
+
+                        return resultes;
+                    }
+                    else {
+                        throw new Error("An unknown error occurred while trying to get tags.");
+                    }
+                })
+            }
+            getMixes().then(resp => {
+
+                var datapoints = [];
+                resp.forEach(pair => datapoints.push(pair))
+                console.log(datapoints)
+                var mixchart = new CanvasJS.Chart("mixContainer", {
+                    title: {
+                        text: "Story Mix"
+                    },
+                    animationEnabled: true,
+                    legend: {
+                        verticalAlign: "center",
+                        horizontalAlign: "left",
+                        fontSize: 20,
+                        fontFamily: "Helvetica"
+                    },
+                    theme: "light2",
+                    data: [
+                        {
+                            type: "pie",
+                            indexLabelFontFamily: "Garamond",
+                            indexLabelFontSize: 20,
+                            indexLabel: "{label}",
+                            startAngle: -20,
+                            showInLegend: false,
+
+                            dataPoints:
+                                datapoints
+
+                        }
+                    ]
+
+
+                });
+                mixchart.render();
+            });
+        });
+    </script>
+}

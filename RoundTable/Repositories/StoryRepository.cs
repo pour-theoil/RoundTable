@@ -240,7 +240,7 @@ namespace RoundTable.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     story.LastStatusUpdate = DateTime.Now;
-                    cmd.CommandText = @"Update  story set
+                    var sql = @"Update  story set
                                         slug = @slug,
                                         typeid = @storytypeId,
                                         nationalId = @nationalId,
@@ -252,6 +252,20 @@ namespace RoundTable.Repositories
                                         where id = @id;
                                        ";
 
+                    var i = 0;
+                    if (story.Sources.Count > 0)
+                    {
+                        sql += "Delete from storySource where storyId = @storyId;";
+                        foreach (var source in story.Sources)
+                        {
+                            sql += @$"
+                                    Insert into storySource (storyId, sourceId) 
+                                    values (@storyId,  sourceId{i});";
+                            i++;
+                        }
+                    }
+
+                    cmd.CommandText = sql;
                     DbUtils.AddParameter(cmd, "@id", story.Id);
                     DbUtils.AddParameter(cmd, "@categoryId", story.CategoryId);
                     DbUtils.AddParameter(cmd, "@slug", story.Slug);
@@ -262,9 +276,67 @@ namespace RoundTable.Repositories
                     DbUtils.AddParameter(cmd, "@reporterId", story.ReporterId);
                     DbUtils.AddParameter(cmd, "@storyUrl", story.StoryURl);
                     DbUtils.AddParameter(cmd, "@laststatusupdate", story.LastStatusUpdate);
+
+                    i = 0;
+                    if (story.Sources.Count > 0)
+                    {
+                        foreach (var cat in story.Sources)
+                        {
+                            DbUtils.AddParameter(cmd, $"@sourceId{i}", cat.Id);
+                            i++;
+                        }
+                    }
+
                     cmd.ExecuteNonQuery();
                 }
             }
         }
+
+        public int StoryStatusCount(int statusId, int reporterId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"select count(id) as count from story where statusId = @statusId and reporterId = @reporterId;";
+                    DbUtils.AddParameter(cmd, "@statusId", statusId);
+                    DbUtils.AddParameter(cmd, "@reporterId", reporterId);
+                    var count = 0;
+
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        count = DbUtils.GetInt(reader, "count");
+                    }
+                    return count;
+                }
+
+            }
+        }
+
+        public int StoryCategoryCount(int categoryId, int reporterId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"select count(id) as count from story where categoryId = @categoryId and reporterId = @reporterId;";
+                    DbUtils.AddParameter(cmd, "@categoryId", categoryId);
+                    DbUtils.AddParameter(cmd, "@reporterId", reporterId);
+                    var count = 0;
+
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        count = DbUtils.GetInt(reader, "count");
+                    }
+                    return count;
+                }
+
+            }
+        }
+
     }
 }

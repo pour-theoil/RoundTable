@@ -19,14 +19,15 @@ namespace RoundTable.Controllers
         private readonly IStoryTypeRepository _storyTypeRepository;
         private readonly INationalOutletRepostitory _nationalOutletRepostitory;
         private readonly IStatusRepository _statusRepository;
+        private readonly ISourceRepository _sourceRepository;
 
         public StoryController(IReporterRepository reporterRepository,
                                 IStoryRepository storyRepository,
                                 IStoryTypeRepository storyTypeRepository,
                                 ICategoryRepository categoryRepository,
                                 INationalOutletRepostitory nationalOutlet,
-                                IStatusRepository statusRepository
-                               )
+                                IStatusRepository statusRepository,
+                                ISourceRepository sourceRepository)
         {
             _reporterRepository = reporterRepository;
             _storyRepository = storyRepository;
@@ -34,6 +35,7 @@ namespace RoundTable.Controllers
             _categoryRepository = categoryRepository;
             _nationalOutletRepostitory = nationalOutlet;
             _statusRepository = statusRepository;
+            _sourceRepository = sourceRepository;
         }
 
         // GET: StoryController
@@ -62,17 +64,21 @@ namespace RoundTable.Controllers
         // GET: StoryController/Create
         public ActionResult Create()
         {
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var types = _storyTypeRepository.GetAllStoryType();
             var category = _categoryRepository.GetAllCategory();
             var national = _nationalOutletRepostitory.GetAllNationalOutlet();
             var status = _statusRepository.GetAllStatus();
+            var sources = _sourceRepository.GetAllSouces(firebaseUserId);
             var vm = new AddStoryViewModel()
             {
                 status = status,
                 story = new Story(),
                 storyTypes = types,
                 categories = category,
-                nationalOutlets = national
+                nationalOutlets = national,
+                Sources = sources
+     
             };
             return View(vm);
         }
@@ -86,14 +92,26 @@ namespace RoundTable.Controllers
             {
                 vm.story.ReporterId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 _storyRepository.AddStory(vm.story);
+
+                if (vm.SelectedValues != null)
+                {
+
+                    foreach (var value in vm.SelectedValues)
+                    {
+                        _sourceRepository.AddSourceToStory(vm.story.Id, value);
+                    }
+                }
                 return RedirectToAction("Details", new { id = vm.story.Id });
             }
             catch
             {
+
+                var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 vm.status = _statusRepository.GetAllStatus();
                 vm.storyTypes = _storyTypeRepository.GetAllStoryType();
                 vm.categories = _categoryRepository.GetAllCategory();
                 vm.nationalOutlets = _nationalOutletRepostitory.GetAllNationalOutlet();
+                vm.Sources = _sourceRepository.GetAllSouces(firebaseUserId);
                 return View(vm);
             }
         }
@@ -106,13 +124,16 @@ namespace RoundTable.Controllers
             var category = _categoryRepository.GetAllCategory();
             var national = _nationalOutletRepostitory.GetAllNationalOutlet();
             var status = _statusRepository.GetAllStatus();
+            var sources = _sourceRepository.GetAllSouces(firebaseUserId);
             var vm = new AddStoryViewModel()
             {
                 status = status,
                 story = _storyRepository.GetStoryById(id, firebaseUserId),
                 storyTypes = types,
                 categories = category,
-                nationalOutlets = national
+                nationalOutlets = national,
+                Sources = sources
+ 
             };
             return View(vm);
         }
@@ -142,12 +163,12 @@ namespace RoundTable.Controllers
             }
             catch (Exception ex)
             {
-
+                var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 vm.storyTypes = _storyTypeRepository.GetAllStoryType();
                 vm.categories = _categoryRepository.GetAllCategory();
                 vm.nationalOutlets = _nationalOutletRepostitory.GetAllNationalOutlet();
                 vm.status = _statusRepository.GetAllStatus();
-
+                vm.Sources = _sourceRepository.GetAllSouces(firebaseUserId);
 
 
                 return View(vm);

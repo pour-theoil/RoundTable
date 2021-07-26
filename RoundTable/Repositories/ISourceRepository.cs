@@ -14,6 +14,7 @@ namespace RoundTable.Repositories
         void UpdateSource(Source source);
         void DeleteSource(int id);
 
+        public void AddSourceToStory(int storyId, int sourceId);
 
     }
 }

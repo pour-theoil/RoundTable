@@ -113,5 +113,32 @@ namespace RoundTable.Repositories
                 }
             }
         }
+
+        public void Update(Reporter reporter)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Update Reporter set
+                                        Email= @email,
+                                        
+                                        Firstname = @Firstname,
+                                        LastName = @LastName,
+                                        Organization = @Organization,
+                                        Phone = @Phone
+                                        where id = @reporterId;";
+                                    
+                    DbUtils.AddParameter(cmd, "@email", reporter.Email);
+                    DbUtils.AddParameter(cmd, "@Firstname", reporter.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", reporter.LastName);
+                    DbUtils.AddParameter(cmd, "@Organization", reporter.Organization);
+                    DbUtils.AddParameter(cmd, "@Phone", reporter.Phone);
+                    DbUtils.AddParameter(cmd, "@reporterId", reporter.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

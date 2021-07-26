@@ -4,12 +4,18 @@
     ViewData["Title"] = "Stories";
 }
 
-<h1>Index</h1>
+<h1>Stories</h1>
 
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Story" asp-action="Index">
+    <p>
+        Slug: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -61,7 +67,7 @@
                     @Html.DisplayFor(modelItem => item.NationalOutlet.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StoryURl)
+                    <a href="@item.StoryURl">@Html.DisplayFor(modelItem => item.StoryURl)</a>
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

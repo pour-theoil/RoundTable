@@ -52,6 +52,22 @@
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.Summary)
                 </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Sources)
+                </dt>
+                <dd class="col-sm-10">
+                    @if (Model.Sources.Count > 0)
+                    {
+
+                        @foreach (var source in Model.Sources)
+                        {
+                            @source.Displayname
+                            <span> </span>
+                            <span> </span>
+                        }
+                    }
+
+                </dd>
             </dl>
         </div>
     </div>

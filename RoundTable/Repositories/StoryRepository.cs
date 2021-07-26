@@ -256,12 +256,12 @@ namespace RoundTable.Repositories
                     var i = 0;
                     if (story.Sources.Count > 0)
                     {
-                        sql += "Delete from storySource where storyId = @storyId;";
+                        sql += "Delete from storySource where storyId = @id;";
                         foreach (var source in story.Sources)
                         {
                             sql += @$"
                                     Insert into storySource (storyId, sourceId) 
-                                    values (@storyId,  sourceId{i});";
+                                    values (@id,  @sourceId{i});";
                             i++;
                         }
                     }
@@ -281,9 +281,9 @@ namespace RoundTable.Repositories
                     i = 0;
                     if (story.Sources.Count > 0)
                     {
-                        foreach (var cat in story.Sources)
+                        foreach (var source in story.Sources)
                         {
-                            DbUtils.AddParameter(cmd, $"@sourceId{i}", cat.Id);
+                            DbUtils.AddParameter(cmd, $"@sourceId{i}", source.Id);
                             i++;
                         }
                     }

@@ -240,5 +240,20 @@ namespace RoundTable.Repositories
                 }
             }
         }
+
+        public void AddSourceToStory(int storyId, int sourceId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Insert into storySource (sourceId, storyId) values (@sourceId, @storyId);";
+                    DbUtils.AddParameter(cmd, "@sourceId", sourceId);
+                    DbUtils.AddParameter(cmd, "@storyId", storyId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

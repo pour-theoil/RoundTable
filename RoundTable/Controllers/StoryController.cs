@@ -193,12 +193,5 @@ namespace RoundTable.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult Search(string criterion)
-        {
-            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var stories = _storyRepository.Search(criterion, firebaseUserId);
-            return View(stories);
-        }
     }
 }

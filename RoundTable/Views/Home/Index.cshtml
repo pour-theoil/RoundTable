@@ -3,6 +3,18 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <h1 class="display-4">Welcome to Round Table</h1>
+    <div>
+        <h3>Time to get working on that next big thing</h3>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Story" asp-action="Create">Add a new story</a>
+        <img href="/images/ledger.png" />
+    </div>
+    
+    <div>
+        <h3>Its been a while since you have talked anyone new...</h3>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Source" asp-action="Create">Add a new souce</a>
+        <img src="@Url.Content("~/images/paige_audio_setup.jpg")" />
+    </div>
+        
 </div>

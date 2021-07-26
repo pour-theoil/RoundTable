@@ -15,6 +15,6 @@ namespace RoundTable.Repositories
         void DeleteStory(int id);
         int StoryStatusCount(int statusId, int reportId);
         int StoryCategoryCount(int categoryId, int reporterId);
-        List<Story> Search(string criterion, int reporterId);
+     
     }
 }

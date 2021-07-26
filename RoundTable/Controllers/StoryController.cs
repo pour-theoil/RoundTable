@@ -37,10 +37,17 @@ namespace RoundTable.Controllers
         }
 
         // GET: StoryController
-        public ActionResult Index()
+        public IActionResult Index(string searchString)
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var stories = _storyRepository.GetAll(int.Parse(firebaseUserId));
+            var story = _storyRepository.GetAll(int.Parse(firebaseUserId));
+            var stories = from s in story
+                          select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                stories = stories.Where(s => s.Slug.Contains(searchString));
+            }
             return View(stories);
         }
 
@@ -186,6 +193,12 @@ namespace RoundTable.Controllers
             }
         }
 
-    
+        [HttpGet]
+        public ActionResult Search(string criterion)
+        {
+            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var stories = _storyRepository.Search(criterion, firebaseUserId);
+            return View(stories);
+        }
     }
 }

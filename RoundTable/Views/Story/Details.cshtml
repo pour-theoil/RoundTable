@@ -6,53 +6,55 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Story</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StoryType.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StoryType.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NationalOutlet.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NationalOutlet.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StoryURl)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StoryURl)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Summary)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
-    </dl>
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="card col-md-12 col-lg-8">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Slug)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Slug)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.StoryType.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.StoryType.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.NationalOutlet.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.NationalOutlet.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Status.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Status.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Category.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Category.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.StoryURl)
+                </dt>
+                <dd class="col-sm-10">
+                    <a href="@Model.StoryURl">@Html.DisplayFor(model => model.StoryURl)</a>
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Summary)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Summary)
+                </dd>
+            </dl>
+        </div>
+    </div>
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

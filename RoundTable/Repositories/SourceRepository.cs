@@ -25,7 +25,7 @@ namespace RoundTable.Repositories
                                         OUTPUT INSERTED.ID
                                         values(@FirstName, @LastName, @Organization, @Email, @Phone,  
                                         @JobTitle, @reporterId);";
-                    var i = 0;
+                    //var i = 0;
                     //if(source.Categories.Count > 0)
                     //{
                     //    foreach(var cat in source.Categories)

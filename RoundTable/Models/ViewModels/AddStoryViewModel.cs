@@ -12,6 +12,7 @@ namespace RoundTable.Models.ViewModels
         public List<StoryType> storyTypes { get; set; }
         public List<Status> status { get; set; }
         public List<NationalOutlet> nationalOutlets { get; set; }
+        public int[] SelectedValues { get; set; }
 
     }
 }

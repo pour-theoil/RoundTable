@@ -13,6 +13,7 @@ namespace RoundTable.Repositories
         void AddStory(Story story);
         void UpdateStory(Story story);
         void DeleteStory(int id);
-
+        int StoryStatusCount(int statusId, int reportId);
+        int StoryCategoryCount(int categoryId, int reporterId);
     }
 }

@@ -117,6 +117,19 @@ namespace RoundTable.Controllers
         {
             try
             {
+                vm.story.Sources = new List<Source>();
+                if (vm.SelectedValues != null)
+                {
+
+                    foreach (var value in vm.SelectedValues)
+                    {
+                        var source = new Source()
+                        {
+                            Id = value,
+                        };
+                        vm.story.Sources.Add(source);
+                    }
+                }
                 _storyRepository.UpdateStory(vm.story);
                 return RedirectToAction("Details", new { id = vm.story.Id });
             }
@@ -172,5 +185,7 @@ namespace RoundTable.Controllers
                 return null;
             }
         }
+
+    
     }
 }

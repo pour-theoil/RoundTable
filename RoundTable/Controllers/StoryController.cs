@@ -39,7 +39,7 @@ namespace RoundTable.Controllers
         }
 
         // GET: StoryController
-        public IActionResult Index(string searchString)
+        public IActionResult Index(string searchString, bool IsChecked)
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var story = _storyRepository.GetAll(int.Parse(firebaseUserId));
@@ -49,6 +49,11 @@ namespace RoundTable.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 stories = stories.Where(s => s.Slug.Contains(searchString));
+            }
+
+            if(IsChecked)
+            {
+                stories = stories.Where(s => s.Status.Id == 7);
             }
             return View(stories);
         }

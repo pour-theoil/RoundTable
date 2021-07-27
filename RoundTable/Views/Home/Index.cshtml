@@ -5,17 +5,26 @@
 <div class="text-center">
 
     <h1 class="display-4">Welcome to Round Table</h1>
-    <div>
-        <h3>Time to get working on that next big thing</h3>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Story" asp-action="Create">Add a new story</a>
-        <img src="@Url.Content("~/images/ledger.png")" />
-        
+    <hr/>
+    <div class="addhome">
+        <img src="@Url.Content("~/images/ledger.png")" class="home-img"/>
+        <div class="homeinfo">
+            <h3>Time to get working on that next big thing</h3>
+                <a class="btn btn-primary" asp-area="" asp-controller="story" asp-action="Create">
+                    Add a new story
+                </a>
+        </div>
+
     </div>
-    
-    <div>
-        <h3>Its been a while since you have talked anyone new...</h3>
-        <a class="nav-link text-dark" asp-area="" asp-controller="Source" asp-action="Create">Add a new souce</a>
-        <img src="@Url.Content("~/images/paige_audio_setup.jpg")" />
+
+    <div class="addhome">
+        <div class="homeinfo">
+            <h3>Its been a while since you have talked anyone new...</h3>
+            <a class="btn btn-primary" asp-area="" asp-controller="Source" asp-action="Create">
+                Add a new souce
+            </a>
+        </div>
+        <img src="@Url.Content("~/images/paige_audio_setup.jpg")" class="home-img" />
     </div>
-        
+
 </div>

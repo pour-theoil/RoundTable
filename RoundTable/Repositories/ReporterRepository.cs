@@ -23,7 +23,7 @@ namespace RoundTable.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                     SELECT Id, Email, FirebaseId, Firstname, LastName, Organization, Phone
+                                     SELECT Id, Email, FirebaseId, Firstname, LastName, Organization, Phone, ImageLocation
                                     FROM Reporter
                                     WHERE Id = @Id";
 
@@ -43,6 +43,7 @@ namespace RoundTable.Repositories
                             Organization = DbUtils.GetString(reader, "Organization"),
                             Phone = DbUtils.GetString(reader, "Phone"),
                             FirebaseId = DbUtils.GetString(reader, "FirebaseId"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation")
                         };
                     }
                     reader.Close();
@@ -122,20 +123,33 @@ namespace RoundTable.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"Update Reporter set
-                                        Email= @email,
-                                        
                                         Firstname = @Firstname,
                                         LastName = @LastName,
                                         Organization = @Organization,
                                         Phone = @Phone
                                         where id = @reporterId;";
                                     
-                    DbUtils.AddParameter(cmd, "@email", reporter.Email);
+                   
                     DbUtils.AddParameter(cmd, "@Firstname", reporter.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", reporter.LastName);
                     DbUtils.AddParameter(cmd, "@Organization", reporter.Organization);
                     DbUtils.AddParameter(cmd, "@Phone", reporter.Phone);
                     DbUtils.AddParameter(cmd, "@reporterId", reporter.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddImage(int id, string imagelocation)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "Update Reporter set ImageLocation = @imagelocation where id = @id";
+                    cmd.Parameters.AddWithValue("@imagelocation", imagelocation);
+                    cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
                 }
             }

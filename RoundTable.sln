@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoundTable", "RoundTable\RoundTable.csproj", "{402AF09D-F38C-4A07-BC8C-678EC5EEAA24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoundTable", "RoundTable\RoundTable.csproj", "{402AF09D-F38C-4A07-BC8C-678EC5EEAA24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoundTable.Tests", "RoundTable.Tests\RoundTable.Tests.csproj", "{AEE73674-5761-4884-B696-24D752ADC1B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{402AF09D-F38C-4A07-BC8C-678EC5EEAA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{402AF09D-F38C-4A07-BC8C-678EC5EEAA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{402AF09D-F38C-4A07-BC8C-678EC5EEAA24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE73674-5761-4884-B696-24D752ADC1B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE73674-5761-4884-B696-24D752ADC1B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE73674-5761-4884-B696-24D752ADC1B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE73674-5761-4884-B696-24D752ADC1B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,43 @@
+﻿@model RoundTable.Models.ViewModels.ImageViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<div class="container pt-5" style="margin-top: 10em">
+    <div class="row justify-content-center">
+        <div class="card col-sm-12 col-md-6 col-lg-4" style="background-color: rgba(100, 111, 88, 0.1) ">
+            <h1 class="text-center" style="font-size: 100px">
+            </h1>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Create" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label asp-for="Image.ImageFile" class="control-label"></label>
+                                <input asp-for="Image.ImageFile" accept="image/*" />
+                                <span asp-validation-for="Image.ImageFile" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input asp-for="Loggedinuser" class="form-control" type="hidden" />
+                                <input type="submit" value="Upload" class="btn btn-primary" />
+                            </div>
+                        </form>
+                        <div>
+                            <a asp-controller="Reporter" asp-action="Details" asp-route-id="@Model.Loggedinuser" class="btn btn-outline-primary mx-1">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

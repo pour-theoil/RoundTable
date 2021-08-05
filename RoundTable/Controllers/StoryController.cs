@@ -51,7 +51,7 @@ namespace RoundTable.Controllers
                 stories = stories.Where(s => s.Slug.Contains(searchString));
             }
 
-            if(IsChecked)
+            if (IsChecked)
             {
                 stories = stories.Where(s => s.Status.Id == 7);
             }
@@ -83,7 +83,7 @@ namespace RoundTable.Controllers
                 categories = category,
                 nationalOutlets = national,
                 Sources = sources
-     
+
             };
             return View(vm);
         }
@@ -124,23 +124,32 @@ namespace RoundTable.Controllers
         // GET: StoryController/Edit/5
         public ActionResult Edit(int id)
         {
-            var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var types = _storyTypeRepository.GetAllStoryType();
-            var category = _categoryRepository.GetAllCategory();
-            var national = _nationalOutletRepostitory.GetAllNationalOutlet();
-            var status = _statusRepository.GetAllStatus();
-            var sources = _sourceRepository.GetAllSouces(firebaseUserId);
-            var vm = new AddStoryViewModel()
+            try
             {
-                status = status,
-                story = _storyRepository.GetStoryById(id, firebaseUserId),
-                storyTypes = types,
-                categories = category,
-                nationalOutlets = national,
-                Sources = sources
- 
-            };
-            return View(vm);
+
+                var firebaseUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var types = _storyTypeRepository.GetAllStoryType();
+                var category = _categoryRepository.GetAllCategory();
+                var national = _nationalOutletRepostitory.GetAllNationalOutlet();
+                var status = _statusRepository.GetAllStatus();
+                var sources = _sourceRepository.GetAllSouces(firebaseUserId);
+                var vm = new AddStoryViewModel()
+                {
+                    status = status,
+                    story = _storyRepository.GetStoryById(id, firebaseUserId),
+                    storyTypes = types,
+                    categories = category,
+                    nationalOutlets = national,
+                    Sources = sources
+
+                };
+                return View(vm);
+            }
+            catch
+            {
+
+                return NotFound();
+            }
         }
 
         // POST: StoryController/Edit/5

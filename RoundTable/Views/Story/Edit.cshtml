@@ -4,86 +4,89 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="container pt-5">
+<div class="container pt-5" style="margin-top: 4em; margin-bottom:4em">
     <div class="row justify-content-center">
-        <div class="card col-md-12 col-lg-8">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <input asp-for="story.Id" class="form-control" type="hidden" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.Slug" class="control-label"></label>
-                    <input asp-for="story.Slug" class="form-control" />
-                    <span asp-validation-for="story.Slug" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.StoryTypeId" class="control-label"></label>
-                    <select asp-for="story.StoryTypeId" class="form-control">
-                        @foreach (var type in Model.storyTypes)
-                        {
-                            <option value="@type.Id">@type.Name</option>
-                        }
-                    </select>
-                    <span asp-validation-for="story.StoryTypeId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.StatusId" class="control-label"></label>
-                    <select asp-for="story.StatusId" class="form-control">
-                        @foreach (var status in Model.status)
-                        {
-                            <option value="@status.Id">@status.Name</option>
-                        }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.CategoryId" class="control-label"></label>
-                    <select asp-for="story.CategoryId" class="form-control">
-                        @foreach (var cat in Model.categories)
-                        {
-                            <option value="@cat.Id">@cat.Name</option>
-                        }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.NationalId" class="control-label"></label>
-                    <select asp-for="story.NationalId" class="form-control">
-                        @foreach (var national in Model.nationalOutlets)
-                        {
-                            <option value="@national.Id">@national.Name</option>
-                        }
-                    </select>
-                    <span asp-validation-for="story.NationalId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.Summary" class="control-label"></label>
-                    <input asp-for="story.Summary" class="form-control" />
-                    <span asp-validation-for="story.Summary" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input asp-for="story.ReporterId" class="form-control" type="hidden" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.StoryURl" class="control-label"></label>
-                    <input asp-for="story.StoryURl" class="form-control" />
-                    <span asp-validation-for="story.StoryURl" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="story.Sources" class="control-label"></label>
+        <div class="card card col-md-12 col-lg-8" style="background-color: rgba(100, 111, 88, 0.1) ">
 
-                    @Html.ListBoxFor(model => model.SelectedValues, new MultiSelectList(Model.Sources, "Id", "Displayname", Model.SelectedValues), new { @class = "form-control", multiple = "multiple" })
-                    <span asp-validation-for="story.Sources" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
+            <div class="card-body">
+                <h1 class="card-title text-center text-secondary">Edit Story</h1>
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <input asp-for="story.Id" class="form-control" type="hidden" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.Slug" class="control-label"></label>
+                        <input asp-for="story.Slug" class="form-control" />
+                        <span asp-validation-for="story.Slug" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.StoryTypeId" class="control-label"></label>
+                        <select asp-for="story.StoryTypeId" class="form-control">
+                            @foreach (var type in Model.storyTypes)
+                            {
+                                <option value="@type.Id">@type.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="story.StoryTypeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.StatusId" class="control-label"></label>
+                        <select asp-for="story.StatusId" class="form-control">
+                            @foreach (var status in Model.status)
+                            {
+                                <option value="@status.Id">@status.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.CategoryId" class="control-label"></label>
+                        <select asp-for="story.CategoryId" class="form-control">
+                            @foreach (var cat in Model.categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.NationalId" class="control-label"></label>
+                        <select asp-for="story.NationalId" class="form-control">
+                            @foreach (var national in Model.nationalOutlets)
+                            {
+                                <option value="@national.Id">@national.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="story.NationalId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.Summary" class="control-label"></label>
+                        <textarea asp-for="story.Summary" class="form-control"></textarea>
+                        <span asp-validation-for="story.Summary" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="story.ReporterId" class="form-control" type="hidden" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.StoryURl" class="control-label"></label>
+                        <input asp-for="story.StoryURl" class="form-control" />
+                        <span asp-validation-for="story.StoryURl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="story.Sources" class="control-label"></label>
+
+                        @Html.ListBoxFor(model => model.SelectedValues, new MultiSelectList(Model.Sources, "Id", "Displayname", Model.SelectedValues), new { @class = "form-control", multiple = "multiple" })
+                        <span asp-validation-for="story.Sources" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

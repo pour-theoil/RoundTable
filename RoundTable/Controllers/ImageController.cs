@@ -15,9 +15,12 @@ public class ImageController : Controller
 {
 
     private readonly IReporterRepository _reporterRepository;
+    private readonly ISourceRepository _sourceRepository;
 
-    public ImageController(IReporterRepository reporterRepository)
+    public ImageController(IReporterRepository reporterRepository,
+                            ISourceRepository sourceRepository)
     {
+        _sourceRepository = sourceRepository;
         _reporterRepository = reporterRepository;
     }
     // GET: Imagecontroler
@@ -64,6 +67,44 @@ public class ImageController : Controller
             string rootpath = Path.Combine(root, fileName);
             _reporterRepository.AddImage(imageModel.Loggedinuser, rootpath);
             return RedirectToAction("Details", "Reporter");
+        }
+
+        return View(imageModel);
+
+
+    }
+
+    public ActionResult CreateSourceImage(int id)
+    {
+        ImageViewModel vm = new ImageViewModel()
+        {
+            Loggedinuser = id
+        };
+        return View(vm);
+    }
+
+    // POST: Imagecontroler/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateSourceImage(ImageViewModel imageModel)
+    {
+        if (ModelState.IsValid)
+        {
+
+            //Save image to wwwroot/image
+            string wwwRootPath = @"wwwroot/uploads/";
+            string fileName = Path.GetFileNameWithoutExtension(imageModel.Image.ImageFile.FileName);
+            string extension = Path.GetExtension(imageModel.Image.ImageFile.FileName);
+            imageModel.Image.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            string path = Path.Combine(wwwRootPath, fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await imageModel.Image.ImageFile.CopyToAsync(fileStream);
+            }
+            string root = @"~/uploads/";
+            string rootpath = Path.Combine(root, fileName);
+            _sourceRepository.AddImage(imageModel.Loggedinuser, rootpath);
+            return RedirectToAction("Details", "Source", new { id = imageModel.Loggedinuser });
         }
 
         return View(imageModel);

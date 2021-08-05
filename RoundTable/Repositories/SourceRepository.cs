@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using RoundTable.Models;
 using RoundTable.Utils;
 using System;
@@ -135,7 +136,7 @@ namespace RoundTable.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Distinct s.id, s.firstname, s.lastname, s.email, s.organization, s.phone, s.jobtitle, s.reporterId,
+                    cmd.CommandText = @"SELECT Distinct s.id, s.firstname, s.lastname, s.email, s.organization, s.ImageLocation, s.phone, s.jobtitle, s.reporterId,
                                         c.id as CategoryId, c.name as CategoryName
                                         FROM SOURCE S LEFT JOIN sourceCategory SC ON SC.sourceId = S.id
                                         LEFT JOIN category C ON C.id = SC.categoryId
@@ -162,6 +163,7 @@ namespace RoundTable.Repositories
                                 Email = DbUtils.GetString(reader, "Email"),
                                 Phone = DbUtils.GetString(reader, "Phone"),
                                 JobTitle = DbUtils.GetString(reader, "Jobtitle"),
+                                ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                                 ReporterId = reporterId,
                                 Categories = new List<Category>(),
 
@@ -251,6 +253,21 @@ namespace RoundTable.Repositories
                     cmd.CommandText = @"Insert into storySource (sourceId, storyId) values (@sourceId, @storyId);";
                     DbUtils.AddParameter(cmd, "@sourceId", sourceId);
                     DbUtils.AddParameter(cmd, "@storyId", storyId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddImage(int id, string imagelocation)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "Update Source set ImageLocation = @imagelocation where id = @id";
+                    cmd.Parameters.AddWithValue("@imagelocation", imagelocation);
+                    cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
                 }
             }

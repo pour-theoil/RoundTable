@@ -13,7 +13,7 @@ namespace RoundTable.Repositories
         void AddSource(Source source);
         void UpdateSource(Source source);
         void DeleteSource(int id);
-
+        public void AddImage(int id, string imagelocation);
         public void AddSourceToStory(int storyId, int sourceId);
 
     }

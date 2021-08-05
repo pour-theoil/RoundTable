@@ -24,5 +24,6 @@ namespace RoundTable.Models
         public string FirebaseId { get; set; }
         [DisplayName("Name")]
         public string Displayname => FirstName + " " + LastName;
+        public string ImageLocation { get; set; }
     }
 }

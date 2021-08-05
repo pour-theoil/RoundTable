@@ -27,5 +27,6 @@ namespace RoundTable.Models
         [DisplayName("Name")]
         public string Displayname => FirstName + " " + LastName;
         public List<Category> Categories { get; set; }
+        public string ImageLocation { get; set; }
     }
 }

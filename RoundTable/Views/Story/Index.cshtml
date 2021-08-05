@@ -4,7 +4,7 @@
     ViewData["Title"] = "Stories";
 }
 
-<h1>Stories</h1>
+<h1 style="margin-top: 4em">Stories</h1>
 
 
 <p>
@@ -28,9 +28,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastStatusUpdate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Category.Name)
@@ -57,9 +54,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastStatusUpdate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Category.Name)

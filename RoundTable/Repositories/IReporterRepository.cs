@@ -11,7 +11,7 @@ namespace RoundTable.Repositories
         public Reporter GetById(int id);
         public Reporter GetByFirebaseUserId(string firebaseUserId);
         public void Add(Reporter reporter);
-
+        public void AddImage(int id, string imagelocation);
         public void Update(Reporter reporter);
     }
 }

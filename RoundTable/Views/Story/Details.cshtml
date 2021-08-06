@@ -62,7 +62,7 @@
 
                             @foreach (var source in Model.Sources)
                             {
-                                @source.Displayname
+                        <a asp-controller="Source" asp-action="Details" asp-route-id="@source.Id">@source.Displayname</a>
                                 <span> </span>
                                 <span> </span>
                             }

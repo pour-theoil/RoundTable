@@ -33,7 +33,7 @@ namespace RoundTable.Repositories
                     DbUtils.AddParameter(cmd, "@storytypeId", story.StoryTypeId);
                     DbUtils.AddParameter(cmd, "@nationalId", story.NationalId);
                     DbUtils.AddParameter(cmd, "@Summary", story.Summary);
-                    DbUtils.AddParameter(cmd, "@StatusId", story.StoryTypeId);
+                    DbUtils.AddParameter(cmd, "@StatusId", story.StatusId);
                     DbUtils.AddParameter(cmd, "@reporterId", story.ReporterId);
                     DbUtils.AddParameter(cmd, "@storyUrl", story.StoryURl);
                     DbUtils.AddParameter(cmd, "@laststatusupdate", story.LastStatusUpdate);
@@ -273,7 +273,7 @@ namespace RoundTable.Repositories
                     DbUtils.AddParameter(cmd, "@storytypeId", story.StoryTypeId);
                     DbUtils.AddParameter(cmd, "@nationalId", story.NationalId);
                     DbUtils.AddParameter(cmd, "@Summary", story.Summary);
-                    DbUtils.AddParameter(cmd, "@StatusId", story.StoryTypeId);
+                    DbUtils.AddParameter(cmd, "@StatusId", story.StatusId);
                     DbUtils.AddParameter(cmd, "@reporterId", story.ReporterId);
                     DbUtils.AddParameter(cmd, "@storyUrl", story.StoryURl);
                     DbUtils.AddParameter(cmd, "@laststatusupdate", story.LastStatusUpdate);
@@ -300,7 +300,7 @@ namespace RoundTable.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select count(id) as count from story where statusId = @statusId and reporterId = @reporterId;";
+                    cmd.CommandText = @"select count(id) as count from story where statusId = @statusId and reporterId = @reporterId and isdeleted = 0;";
                     DbUtils.AddParameter(cmd, "@statusId", statusId);
                     DbUtils.AddParameter(cmd, "@reporterId", reporterId);
                     var count = 0;
@@ -323,7 +323,7 @@ namespace RoundTable.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"select count(id) as count from story where categoryId = @categoryId and reporterId = @reporterId;";
+                    cmd.CommandText = @"select count(id) as count from story where categoryId = @categoryId and reporterId = @reporterId and isdeleted = 0;";
                     DbUtils.AddParameter(cmd, "@categoryId", categoryId);
                     DbUtils.AddParameter(cmd, "@reporterId", reporterId);
                     var count = 0;

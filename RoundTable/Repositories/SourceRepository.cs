@@ -137,11 +137,14 @@ namespace RoundTable.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT Distinct s.id, s.firstname, s.lastname, s.email, s.organization, s.ImageLocation, s.phone, s.jobtitle, s.reporterId,
-                                        c.id as CategoryId, c.name as CategoryName
+                                        c.id as CategoryId, c.name as CategoryName,
+                                        st.Id as storyId, st.slug as StorySlug
                                         FROM SOURCE S LEFT JOIN sourceCategory SC ON SC.sourceId = S.id
                                         LEFT JOIN category C ON C.id = SC.categoryId
-                                        WHERE s.IsDeleted = 0 AND s.reporterId =@reporterId
-                                        and s.id = @sourceId; ";
+                                        LEFT JOIN StorySource stsc on stsc.sourceId = s.id 
+                                        left join Story st on st.id = stsc.storyId
+                                        WHERE s.IsDeleted = 0 AND s.reporterId = @reporterId
+                                        and s.id = @sourceId and st.isdeleted = 0; ";
                     DbUtils.AddParameter(cmd, "@sourceId", sourceId);
                     DbUtils.AddParameter(cmd, "@reporterId", reporterId);
                     Source source = null;
@@ -166,6 +169,7 @@ namespace RoundTable.Repositories
                                 ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                                 ReporterId = reporterId,
                                 Categories = new List<Category>(),
+                                Stories = new List<Story>()
 
                             };
 
@@ -177,6 +181,14 @@ namespace RoundTable.Repositories
                             {
                                 Id = DbUtils.GetInt(reader, "CategoryId"),
                                 Name = DbUtils.GetString(reader, "CategoryName")
+                            });
+                        }
+                        if (DbUtils.IsNotDbNull(reader, "StoryId"))
+                        {
+                            source.Stories.Add(new Story()
+                            {
+                                Id = DbUtils.GetInt(reader, "StoryId"),
+                                Slug = DbUtils.GetString(reader, "StorySlug")
                             });
                         }
                     }
